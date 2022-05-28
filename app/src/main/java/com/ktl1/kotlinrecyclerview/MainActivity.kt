@@ -31,11 +31,20 @@ class MainActivity : AppCompatActivity() {
         recyclerView.setBackgroundColor(Color.BLUE)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = MyRecyclerViewAdapter(fruits)
+        recyclerView.adapter =
+            MyRecyclerViewAdapter(fruits) { selectedItem: Fruit -> // function pass using the lambda expression
+                listItemClick(selectedItem)
+            }
     }
 
 
-
+    private fun listItemClick(fruit: Fruit) {
+        Toast.makeText(
+            this@MainActivity,
+            "Selected fruit name is : ${fruit.name}",
+            Toast.LENGTH_LONG
+        ).show()
+    }
 
 
 }

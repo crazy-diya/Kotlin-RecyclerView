@@ -8,10 +8,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
-class MyRecyclerViewAdapter(/*private val fruits:List<String>*/ private val fruits: List<Fruit>) :
+class MyRecyclerViewAdapter(
+    private val fruits: List<Fruit>,
+    private val clickListener: (Fruit) -> Unit // Unit mean this function have not return like Void
+) :
     RecyclerView.Adapter<MyViewHolder>() {
-
-//    val fruits = listOf<String>("Mango","Orange","Papaya","Apple","Grapes","Banana","Guava","Pear")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -20,11 +21,7 @@ class MyRecyclerViewAdapter(/*private val fruits:List<String>*/ private val frui
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-//        holder.myTextView.setTextColor(Color.CYAN)
-//        holder.myTextView.text = fruits[position].name
-
-        holder.bind(fruits[position])
-
+        holder.bind(fruits[position], clickListener)
     }
 
     override fun getItemCount(): Int {
@@ -34,14 +31,13 @@ class MyRecyclerViewAdapter(/*private val fruits:List<String>*/ private val frui
 }
 
 class MyViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-//    val myTextView = view.findViewById<TextView>(R.id.textView)!!
 
-    fun bind(fruit:Fruit){
+    fun bind(fruit: Fruit, clickListener: (Fruit) -> Unit) {
         val myTextView = view.findViewById<TextView>(R.id.textView)!!
         myTextView.text = fruit.name
 
-        view.setOnClickListener{
-            Toast.makeText(view.context,"Selected fruit name is : ${fruit.name}",Toast.LENGTH_LONG).show()
+        view.setOnClickListener {
+            clickListener(fruit)
         }
     }
 }
